@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Fleet | Smart Transit</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/transit-control.css') }}">
+</head>
+<body class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="/"><span class="brand-mark">S</span><span>SMART<span class="brand-light">TRANSIT</span><small>TRANSIT CONTROL</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    {% if session.get('role') == 'admin' %}
+      <a class="nav-link" href="/">◫ <span>Overview</span></a>
+      <a class="nav-link" href="/fleet">▦ <span>Fleet management</span></a>
+      <a class="nav-link" href="/trips">↗ <span>Trip operations</span></a>
+    {% endif %}
+    <a class="nav-link active" href="/tracking">⌖ <span>Live tracking</span></a>
+    <div class="sidebar-bottom">
+      <div class="profile-dot">{{ (session.get('username') or 'G')[0]|upper }}</div>
+      <div class="profile-info"><strong>{{ session.get('username', 'Guest') }}</strong><small>{{ session.get('role', 'public')|title }}</small></div>
+      {% if session.get('user_id') %}
+      <form method="post" action="/logout"><button class="icon-button" title="Log out" aria-label="Log out">↗</button></form>
+      {% endif %}
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div><div class="eyebrow">OPERATIONS / TELEMETRY</div><h1>Live fleet tracking</h1><p class="subheading">Real-time vehicle positions reported by drivers' devices.</p></div>
+      <div class="live-pill"><span class="pulse"></span> LIVE FEED <span id="last-updated">Connecting…</span></div>
+    </header>
+
+    <section class="metric-grid">
+      <article class="metric-card"><div class="metric-top"><span>FLEET SIZE</span><span class="metric-icon">▦</span></div><div class="metric-value" id="fleet-total">—</div><div class="metric-foot">Registered vehicles</div></article>
+      <article class="metric-card"><div class="metric-top"><span>LIVE NOW</span><span class="metric-icon lime">⌖</span></div><div class="metric-value" id="fleet-live">—</div><div class="metric-foot">Fresh GPS fix within 30 sec</div></article>
+      <article class="metric-card"><div class="metric-top"><span>OFFLINE</span><span class="metric-icon muted">○</span></div><div class="metric-value" id="fleet-offline">—</div><div class="metric-foot">Not currently sharing location</div></article>
+    </section>
+
+    <section class="tracking-layout">
+      <div class="panel map-panel">
+        <div class="panel-heading"><div><h2>Fleet map</h2><p>Vehicle locations update automatically every 3 seconds.</p></div><span class="map-key"><i></i> GPS LIVE</span></div>
+        <div id="map" aria-label="Live bus map"></div>
+        <div class="map-footer"><span><i class="legend-dot"></i> Live bus</span><span><i class="legend-dot offline-dot"></i> Offline / stale</span><span>Map © OpenStreetMap</span></div>
+      </div>
+      <div class="panel vehicle-panel">
+        <div class="panel-heading"><div><h2>Vehicles</h2><p id="vehicle-count">Waiting for feed…</p></div><span class="tiny-tag">FLEET</span></div>
+        <div id="vehicle-list" class="vehicle-list"><div class="empty-state">Loading fleet data…</div></div>
+      </div>
+    </section>
+    <div class="notice"><span>ⓘ</span><p>Live tracking appears only when a driver signs in on a phone and taps <strong>Start GPS sharing</strong>. Browser location permission and a secure connection (HTTPS or localhost) are required. This page does not generate fake bus positions.</p></div>
+  </main>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="{{ url_for('static', filename='js/tracking.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip History | Smart Transit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">
+            <span class="brand-icon">S</span>
+            <span>smart<span class="brand-light">transit</span></span>
+        </div>
+        <p class="nav-label">WORKSPACE</p>
+        <a class="nav-item" href="/">▦ &nbsp; Overview</a>
+        <a class="nav-item" href="#">◉ &nbsp; Live Tracking</a>
+        <a class="nav-item" href="/fleet">▤ &nbsp; Fleet Management</a>
+        <a class="nav-item active" href="/trips">◷ &nbsp; Trip History</a>
+        <div class="sidebar-bottom">
+            <span class="status-dot"></span> All systems operational
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">OPERATIONS / TRIPS</p>
+                <h1>Trip History</h1>
+            </div>
+            <div class="topbar-right">
+                <span class="live-pill"><span class="status-dot"></span> SYSTEM ONLINE</span>
+                <div class="avatar">A</div>
+            </div>
+        </header>
+
+        <section class="welcome">
+            <div>
+                <p class="eyebrow">TRIP OPERATIONS</p>
+                <h2>Every journey, accounted for.</h2>
+                <p class="muted">Schedule trips and record arrival performance.</p>
+            </div>
+        </section>
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <p>TOTAL TRIPS</p>
+                <h2 id="trip-total">0</h2>
+                <small>All recorded trips</small>
+            </article>
+            <article class="stat-card">
+                <p>ONGOING</p>
+                <h2 id="trip-ongoing">0</h2>
+                <small>Currently in progress</small>
+            </article>
+            <article class="stat-card">
+                <p>COMPLETED</p>
+                <h2 id="trip-completed">0</h2>
+                <small>Trips with recorded arrival</small>
+            </article>
+            <article class="stat-card">
+                <p>ON-TIME RATE</p>
+                <h2 id="trip-on-time">0%</h2>
+                <small>Within five minutes of schedule</small>
+            </article>
+        </section>
+
+        <section class="panel fleet-panel">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">SCHEDULING</p>
+                    <h3>Create a trip</h3>
+                </div>
+            </div>
+
+            <form id="trip-form" class="add-bus-form">
+                <div class="form-field">
+                    <label for="trip-bus">Active bus</label>
+                    <select id="trip-bus" required>
+                        <option value="">Loading buses...</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="trip-route">Route</label>
+                    <select id="trip-route" required>
+                        <option value="">Select a bus first</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="scheduled-arrival">Scheduled arrival</label>
+                    <input id="scheduled-arrival" type="datetime-local" required>
+                </div>
+                <button class="primary-button" type="submit">Create trip</button>
+            </form>
+
+            <p id="trip-message" class="fleet-message" role="status"></p>
+        </section>
+
+        <section class="panel fleet-panel">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">JOURNEY RECORDS</p>
+                    <h3>All trips</h3>
+                </div>
+                <button class="secondary-button" id="refresh-trips" type="button">
+                    Refresh
+                </button>
+            </div>
+
+            <div class="table-wrap">
+                <table class="fleet-table">
+                    <thead>
+                        <tr>
+                            <th>TRIP</th>
+                            <th>BUS</th>
+                            <th>ROUTE</th>
+                            <th>SCHEDULED ARRIVAL</th>
+                            <th>ACTUAL ARRIVAL</th>
+                            <th>STATUS</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trip-table-body">
+                        <tr><td colspan="7">Loading trips...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>SMART TRANSIT <span>•</span> BUILT FOR BETTER MOBILITY</footer>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/trips.js') }}"></script>
+</body>
+</html>

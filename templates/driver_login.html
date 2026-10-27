@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Login | Smart Transit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="driver-auth">
+        <section class="driver-auth-card">
+            <p class="eyebrow">SMART TRANSIT / DRIVER ACCESS</p>
+            <h1>Welcome back.</h1>
+            <p>Sign in to access your assigned vehicle.</p>
+
+            {% if error %}
+                <p class="driver-error">{{ error }}</p>
+            {% endif %}
+
+            <form method="POST">
+                <label for="username">Username</label>
+                <input id="username" name="username" required autocomplete="username">
+
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" required autocomplete="current-password">
+
+                <button type="submit">Sign in →</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Management | Smart Transit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">
+            <span class="brand-icon">S</span>
+            <span>smart<span class="brand-light">transit</span></span>
+        </div>
+
+        <p class="nav-label">WORKSPACE</p>
+        <a class="nav-item" href="/">▦ &nbsp; Overview</a>
+        <a class="nav-item" href="#">◉ &nbsp; Live Tracking</a>
+        <a class="nav-item active" href="/fleet">▤ &nbsp; Fleet Management</a>
+        <a class="nav-item" href="/trips">◷ &nbsp; Trip History</a>
+
+        <div class="sidebar-bottom">
+            <span class="status-dot"></span>
+            All systems operational
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">e
+            <div>
+                <p class="eyebrow">OPERATIONS / FLEET</p>
+                <h1>Fleet Management</h1>
+            </div>
+            <div class="topbar-right">
+                <span class="live-pill"><span class="status-dot"></span> SYSTEM ONLINE</span>
+                <div class="avatar">A</div>
+            </div>
+        </header>
+
+        <section class="welcome">
+            <div>
+                <p class="eyebrow">VEHICLE OPERATIONS</p>
+                <h2>Know your fleet.</h2>
+                <p class="muted">Manage vehicles and their operational status.</p>
+            </div>
+        </section>
+
+        <section class="stats-grid fleet-stats">
+            <article class="stat-card">
+                <p>TOTAL BUSES</p>
+                <h2 id="fleet-total">--</h2>
+                <small>Registered vehicles</small>
+            </article>
+            <article class="stat-card">
+                <p>ACTIVE BUSES</p>
+                <h2 id="fleet-active">--</h2>
+                <small>Currently operational</small>
+            </article>
+            <article class="stat-card">
+                <p>INACTIVE BUSES</p>
+                <h2 id="fleet-inactive">--</h2>
+                <small>Not currently operational</small>
+            </article>
+            <article class="stat-card">
+                <p>AVAILABLE ROUTES</p>
+                <h2 id="fleet-routes">--</h2>
+                <small>Configured routes</small>
+            </article>
+        </section>
+
+        <section class="panel fleet-panel">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">VEHICLE DIRECTORY</p>
+                    <h3>Registered buses</h3>
+                </div>
+                <span class="live-pill">FLEET REGISTRY</span>
+            </div>
+
+            <div class="fleet-toolbar">
+                <input id="bus-search" type="search"
+                       placeholder="Search bus ID or route..."
+                       aria-label="Search buses">
+                <button class="primary-button" id="show-add-form">
+                    + Add bus
+                </button>
+            </div>
+
+            <form id="add-bus-form" class="add-bus-form" hidden>
+                <div class="form-field">
+                    <label for="bus-id">Bus ID</label>
+                    <input id="bus-id" name="bus-id"
+                           placeholder="e.g. BUS-106" required>
+                </div>
+                <div class="form-field">
+                    <label for="bus-route">Assigned route</label>
+                    <select id="bus-route" name="bus-route" required>
+                        <option value="">Loading routes...</option>
+                    </select>
+                </div>
+                <button class="primary-button" type="submit">Save bus</button>
+                <button class="secondary-button" id="cancel-add" type="button">
+                    Cancel
+                </button>
+            </form>
+
+            <p id="fleet-message" class="fleet-message" role="status"></p>
+
+            <div class="table-wrap">
+                <table class="fleet-table">
+                    <thead>
+                        <tr>
+                            <th>BUS ID</th>
+                            <th>ASSIGNED ROUTE</th>
+                            <th>STATUS</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fleet-table-body">
+                        <tr><td colspan="4">Loading fleet data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>SMART TRANSIT <span>•</span> BUILT FOR BETTER MOBILITY</footer>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/fleet.js') }}"></script>
+</body>
+</html>

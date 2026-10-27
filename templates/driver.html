@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Driver Console | Smart Transit</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/transit-control.css') }}">
+</head>
+<body class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="/driver"><span class="brand-mark">S</span><span>SMART<span class="brand-light">TRANSIT</span><small>DRIVER CONSOLE</small></span></a>
+    <div class="nav-label">DRIVER WORKSPACE</div>
+    <a class="nav-link active" href="/driver">⌖ <span>GPS sharing</span></a>
+    <a class="nav-link" href="/tracking">◉ <span>Public fleet map</span></a>
+    <div class="sidebar-bottom">
+      <div class="profile-dot">{{ (session.get('username') or 'D')[0]|upper }}</div>
+      <div class="profile-info"><strong>{{ driver['username'] }}</strong><small>Driver · {{ driver['bus_id'] }}</small></div>
+      <form method="post" action="/logout"><button class="icon-button" title="Log out" aria-label="Log out">↗</button></form>
+    </div>
+  </aside>
+  <main class="main-content driver-main">
+    <header class="topbar">
+      <div><div class="eyebrow">DRIVER WORKSPACE / GPS</div><h1>Driver console</h1><p class="subheading">Share your device location so dispatch can see your bus live.</p></div>
+      <div class="live-pill"><span class="pulse" id="status-pulse"></span><span id="gps-state">GPS NOT SHARING</span></div>
+    </header>
+    <section class="driver-hero panel">
+      <div class="driver-bus-icon">▰</div>
+      <div class="driver-bus-details"><div class="eyebrow">ASSIGNED VEHICLE</div><h2>{{ driver['bus_id'] }}</h2><p>Route {{ driver['route_id'] }} <span class="status-badge {{ 'status-active' if driver['status'] == 'Active' else 'status-inactive' }}">{{ driver['status'] }}</span></p></div>
+      <div class="driver-actions">
+        <button id="start-gps" class="button-primary">⌖ &nbsp; Start GPS sharing</button>
+        <button id="stop-gps" class="button-secondary" disabled>Stop sharing</button>
+      </div>
+    </section>
+    <section class="driver-stats metric-grid">
+      <article class="metric-card"><div class="metric-top"><span>LATITUDE</span><span class="metric-icon lime">↕</span></div><div class="metric-value compact" id="latitude">—</div><div class="metric-foot">Current GPS coordinate</div></article>
+      <article class="metric-card"><div class="metric-top"><span>LONGITUDE</span><span class="metric-icon lime">↔</span></div><div class="metric-value compact" id="longitude">—</div><div class="metric-foot">Current GPS coordinate</div></article>
+      <article class="metric-card"><div class="metric-top"><span>ACCURACY</span><span class="metric-icon">◎</span></div><div class="metric-value compact" id="accuracy">—</div><div class="metric-foot">Estimated GPS precision</div></article>
+    </section>
+    <section class="panel gps-status-panel">
+      <div class="panel-heading"><div><h2>Location diagnostics</h2><p id="gps-message">GPS sharing is off. Tap start when you're ready to begin your trip.</p></div></div>
+      <div class="diagnostic-row"><span>Last successful update</span><strong id="last-fix">No location yet</strong></div>
+      <div class="diagnostic-row"><span>Device heading</span><strong id="heading">—</strong></div>
+      <div class="diagnostic-row"><span>Reported speed</span><strong id="speed">—</strong></div>
+    </section>
+    <div class="notice"><span>ⓘ</span><p>Keep this page open while sharing. Location permission is required. On a phone, browser GPS generally needs HTTPS; plain <code>http://192.168.x.x</code> may be blocked. Use a trusted HTTPS tunnel or deploy with HTTPS. Do not use the Flask debug server as a public deployment server.</p></div>
+  </main>
+  <script src="{{ url_for('static', filename='js/driver-gps.js') }}"></script>
+</body>
+</html>
